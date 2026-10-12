@@ -26,11 +26,18 @@ jobs:
           languages: swift
           build-mode: manual
       - name: Build arm64 app
+        # CodeQL tracing cannot launch sandbox-exec for the build-date script
+        # on this arm64 runner. Override build-script sandboxing only here;
+        # the app's App Sandbox entitlements and hardened runtime stay enabled.
         run: >-
           xcodebuild -project PhotoViewer.xcodeproj -scheme PhotoViewer
           -configuration Release -destination 'platform=macOS,arch=arm64'
           -derivedDataPath "$RUNNER_TEMP/PhotoViewerCodeQL"
-          ENABLE_CODE_COVERAGE=NO build
+          ENABLE_CODE_COVERAGE=NO ENABLE_USER_SCRIPT_SANDBOXING=NO build
+      - name: Verify app security configuration
+        run: >-
+          python3 scripts/verify_release.py
+          "$RUNNER_TEMP/PhotoViewerCodeQL/Build/Products/Release/Photo Viewer.app"
       - name: Analyze
         uses: github/codeql-action/analyze@f3c49fd1ef3281abc41069b3dd22807a60c963f6 # v4
         with:
