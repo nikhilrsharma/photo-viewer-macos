@@ -1,0 +1,541 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00000000000000000000001 /* PhotoViewerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000001 /* PhotoViewerApp.swift */; };
+		A00000000000000000000002 /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000002 /* ApplicationState.swift */; };
+		A00000000000000000000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000003 /* ContentView.swift */; };
+		A00000000000000000000004 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* ImageScrollView.swift */; };
+		A00000000000000000000005 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000005 /* ImageLoader.swift */; };
+		A00000000000000000000006 /* ImageCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000006 /* ImageCatalog.swift */; };
+		A00000000000000000000007 /* ZoomPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000007 /* ZoomPolicy.swift */; };
+		A00000000000000000000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000009 /* Assets.xcassets */; };
+		A00000000000000000000009 /* ZoomPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000A /* ZoomPolicyTests.swift */; };
+		A0000000000000000000000A /* ImageCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000B /* ImageCatalogTests.swift */; };
+		A0000000000000000000000B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000E /* XCTest.framework */; };
+		A0000000000000000000000C /* ImageLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000010 /* ImageLoaderTests.swift */; };
+		A0000000000000000000000D /* ApplicationStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* ApplicationStateTests.swift */; };
+		A0000000000000000000000E /* NavigationWindowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* NavigationWindowTests.swift */; };
+		A0000000000000000000000F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000013 /* PrivacyInfo.xcprivacy */; };
+		A00000000000000000000010 /* SandboxFileAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000014 /* SandboxFileAccess.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A20000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A90000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A50000000000000000000001;
+			remoteInfo = PhotoViewer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A10000000000000000000001 /* PhotoViewerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerApp.swift; sourceTree = "<group>"; };
+		A10000000000000000000002 /* ApplicationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
+		A10000000000000000000003 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A10000000000000000000004 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
+		A10000000000000000000005 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		A10000000000000000000006 /* ImageCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCatalog.swift; sourceTree = "<group>"; };
+		A10000000000000000000007 /* ZoomPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomPolicy.swift; sourceTree = "<group>"; };
+		A10000000000000000000008 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A10000000000000000000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1000000000000000000000A /* ZoomPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomPolicyTests.swift; sourceTree = "<group>"; };
+		A1000000000000000000000B /* ImageCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCatalogTests.swift; sourceTree = "<group>"; };
+		A1000000000000000000000C /* Photo Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Photo Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1000000000000000000000D /* PhotoViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1000000000000000000000E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
+		A1000000000000000000000F /* AppIcon.svg */ = {isa = PBXFileReference; lastKnownFileType = image.svg; path = AppIcon.svg; sourceTree = "<group>"; };
+		A10000000000000000000010 /* ImageLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000011 /* ApplicationStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationStateTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000012 /* NavigationWindowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationWindowTests.swift; sourceTree = "<group>"; };
+		A10000000000000000000013 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A10000000000000000000014 /* SandboxFileAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandboxFileAccess.swift; sourceTree = "<group>"; };
+		A10000000000000000000015 /* PhotoViewer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhotoViewer.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A30000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A30000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0000000000000000000000B /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A40000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A40000000000000000000002 /* PhotoViewer */,
+				A40000000000000000000003 /* PhotoViewerTests */,
+				A1000000000000000000000F /* AppIcon.svg */,
+				A40000000000000000000004 /* Frameworks */,
+				A40000000000000000000005 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A40000000000000000000002 /* PhotoViewer */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000001 /* PhotoViewerApp.swift */,
+				A10000000000000000000002 /* ApplicationState.swift */,
+				A10000000000000000000003 /* ContentView.swift */,
+				A10000000000000000000004 /* ImageScrollView.swift */,
+				A10000000000000000000005 /* ImageLoader.swift */,
+				A10000000000000000000006 /* ImageCatalog.swift */,
+				A10000000000000000000007 /* ZoomPolicy.swift */,
+				A10000000000000000000009 /* Assets.xcassets */,
+				A10000000000000000000008 /* Info.plist */,
+				A10000000000000000000013 /* PrivacyInfo.xcprivacy */,
+				A10000000000000000000014 /* SandboxFileAccess.swift */,
+				A10000000000000000000015 /* PhotoViewer.entitlements */,
+			);
+			path = PhotoViewer;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000003 /* PhotoViewerTests */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000000A /* ZoomPolicyTests.swift */,
+				A1000000000000000000000B /* ImageCatalogTests.swift */,
+				A10000000000000000000010 /* ImageLoaderTests.swift */,
+				A10000000000000000000011 /* ApplicationStateTests.swift */,
+				A10000000000000000000012 /* NavigationWindowTests.swift */,
+			);
+			path = PhotoViewerTests;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000004 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000000E /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000005 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000000C /* Photo Viewer.app */,
+				A1000000000000000000000D /* PhotoViewerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000000000000000000001 /* PhotoViewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80000000000000000000002 /* Build configuration list for PBXNativeTarget "PhotoViewer" */;
+			buildPhases = (
+				A60000000000000000000001 /* Sources */,
+				A30000000000000000000001 /* Frameworks */,
+				AB0000000000000000000001 /* Generate Build Date */,
+				A70000000000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotoViewer;
+			packageProductDependencies = (
+			);
+			productName = PhotoViewer;
+			productReference = A1000000000000000000000C /* Photo Viewer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A50000000000000000000002 /* PhotoViewerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80000000000000000000003 /* Build configuration list for PBXNativeTarget "PhotoViewerTests" */;
+			buildPhases = (
+				A60000000000000000000002 /* Sources */,
+				A30000000000000000000002 /* Frameworks */,
+				A70000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A20000000000000000000002 /* PBXTargetDependency */,
+			);
+			name = PhotoViewerTests;
+			packageProductDependencies = (
+			);
+			productName = PhotoViewerTests;
+			productReference = A1000000000000000000000D /* PhotoViewerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A90000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					A50000000000000000000001 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					A50000000000000000000002 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = A50000000000000000000001;
+					};
+				};
+			};
+			buildConfigurationList = A80000000000000000000001 /* Build configuration list for PBXProject "PhotoViewer" */;
+			compatibilityVersion = "Xcode 16.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A40000000000000000000001;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A40000000000000000000005 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A50000000000000000000001 /* PhotoViewer */,
+				A50000000000000000000002 /* PhotoViewerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A70000000000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000008 /* Assets.xcassets in Resources */,
+				A0000000000000000000000F /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A70000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AB0000000000000000000001 /* Generate Build Date */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Build Date";
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/BuildDate.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -eu\n/bin/mkdir -p \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\n/bin/date '+%Y-%m-%d' > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A60000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000001 /* PhotoViewerApp.swift in Sources */,
+				A00000000000000000000002 /* ApplicationState.swift in Sources */,
+				A00000000000000000000003 /* ContentView.swift in Sources */,
+				A00000000000000000000004 /* ImageScrollView.swift in Sources */,
+				A00000000000000000000005 /* ImageLoader.swift in Sources */,
+				A00000000000000000000006 /* ImageCatalog.swift in Sources */,
+				A00000000000000000000007 /* ZoomPolicy.swift in Sources */,
+				A00000000000000000000010 /* SandboxFileAccess.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A60000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000009 /* ZoomPolicyTests.swift in Sources */,
+				A0000000000000000000000A /* ImageCatalogTests.swift in Sources */,
+				A0000000000000000000000C /* ImageLoaderTests.swift in Sources */,
+				A0000000000000000000000D /* ApplicationStateTests.swift in Sources */,
+				A0000000000000000000000E /* NavigationWindowTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A20000000000000000000002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A50000000000000000000001 /* PhotoViewer */;
+			targetProxy = A20000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AA0000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AA0000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_COVERAGE_MAPPING = NO;
+				CLANG_COVERAGE_MAPPING_LINKER_ARGS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		AA0000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PhotoViewer/PhotoViewer.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 5;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PhotoViewer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nikhilsharma.PhotoViewer;
+				PRODUCT_MODULE_NAME = PhotoViewer;
+				PRODUCT_NAME = "Photo Viewer";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		AA0000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PhotoViewer/PhotoViewer.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 5;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PhotoViewer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.4;
+				OTHER_CODE_SIGN_FLAGS = "--options runtime";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nikhilsharma.PhotoViewer;
+				PRODUCT_MODULE_NAME = PhotoViewer;
+				PRODUCT_NAME = "Photo Viewer";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		AA0000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nikhilsharma.PhotoViewerTests;
+				PRODUCT_NAME = PhotoViewerTests;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Photo Viewer.app/Contents/MacOS/Photo Viewer";
+			};
+			name = Debug;
+		};
+		AA0000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nikhilsharma.PhotoViewerTests;
+				PRODUCT_NAME = PhotoViewerTests;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Photo Viewer.app/Contents/MacOS/Photo Viewer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A80000000000000000000001 /* Build configuration list for PBXProject "PhotoViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000001 /* Debug */,
+				AA0000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80000000000000000000002 /* Build configuration list for PBXNativeTarget "PhotoViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000003 /* Debug */,
+				AA0000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80000000000000000000003 /* Build configuration list for PBXNativeTarget "PhotoViewerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000005 /* Debug */,
+				AA0000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A90000000000000000000001 /* Project object */;
+}

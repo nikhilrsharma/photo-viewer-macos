@@ -1,0 +1,83 @@
+{
+  "fixture_directory": "generated-fixtures",
+  "os": "Version 27.0.1 (Build 26A434)",
+  "processor_count": 8,
+  "compiler": "Apple Swift 6.4, swiftc -O -parse-as-library",
+  "navigation": [
+    {
+      "images": 100,
+      "repetitions": 5,
+      "baseline_scan_sort_ms_median": 14.86,
+      "baseline_canonical_index_ms_median": 5.051291,
+      "baseline_combined_ms_median": 19.894417,
+      "cached_lookup_ms_per_operation": 0.00010687583,
+      "checksum": 4950495,
+      "fixture_kind": "tiny placeholders; warm filesystem cache; last-image baseline lookup"
+    },
+    {
+      "images": 1000,
+      "repetitions": 5,
+      "baseline_scan_sort_ms_median": 151.814,
+      "baseline_canonical_index_ms_median": 52.834875,
+      "baseline_combined_ms_median": 205.830959,
+      "cached_lookup_ms_per_operation": 0.00011556333,
+      "checksum": 49954995,
+      "fixture_kind": "tiny placeholders; warm filesystem cache; last-image baseline lookup"
+    },
+    {
+      "images": 5000,
+      "repetitions": 5,
+      "baseline_scan_sort_ms_median": 751.587292,
+      "baseline_canonical_index_ms_median": 264.655541,
+      "baseline_combined_ms_median": 1013.511792,
+      "cached_lookup_ms_per_operation": 0.00012817833,
+      "checksum": 249974995,
+      "fixture_kind": "tiny placeholders; warm filesystem cache; last-image baseline lookup"
+    }
+  ],
+  "image": {
+    "fixture": "generated-fixtures/synthetic-48mp.jpg",
+    "fixture_bytes": 29343218,
+    "fixture_sha256": "2831b537c5013a6c9caad18d3ed12c6968830bb74a9ba366ff48b788b078f6d6",
+    "content_name_size_created_modified_xattrs_unchanged": true,
+    "extended_attribute_names": [
+      "com.apple.provenance",
+      "com.example.photoviewer.benchmark"
+    ],
+    "runs": [
+      {
+        "requested_maximum_dimension": 8000,
+        "decoded_width": 8000,
+        "decoded_height": 6000,
+        "decoded_pixel_buffer_bytes": 192000000,
+        "decode_ms_median": 385.157625,
+        "decode_ms_samples": [
+          386.047666,
+          385.157625,
+          355.626459,
+          392.434292,
+          387.85475,
+          367.555834,
+          340.312833
+        ]
+      },
+      {
+        "requested_maximum_dimension": 2560,
+        "decoded_width": 2560,
+        "decoded_height": 1920,
+        "decoded_pixel_buffer_bytes": 19660800,
+        "decode_ms_median": 273.3885,
+        "decode_ms_samples": [
+          271.718417,
+          271.210875,
+          274.967708,
+          273.891834,
+          273.113958,
+          273.3885,
+          276.493166
+        ]
+      }
+    ],
+    "notes": "Warm-cache synchronous ImageIO microbenchmark on generated JPEG; decoded buffer sizes are not process peak RSS. No user image read or written."
+  }
+}

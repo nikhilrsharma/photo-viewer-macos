@@ -1,0 +1,48 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    # GitHub's Apple-silicon Xcode 27 image is currently a public preview.
+    # Revalidate the runner/toolchain before the first public release.
+    runs-on: xcode-27
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Toolchain
+        run: |
+          xcodebuild -version
+          xcrun swift --version
+          uname -m
+      - name: Public source hygiene
+        run: python3 scripts/validate_source.py
+      - name: Unit and application-hosted tests
+        run: >-
+          xcodebuild -project PhotoViewer.xcodeproj -scheme PhotoViewer
+          -configuration Debug -destination 'platform=macOS,arch=arm64'
+          -derivedDataPath "$RUNNER_TEMP/PhotoViewerTests"
+          -parallel-testing-enabled NO ENABLE_CODE_COVERAGE=NO test
+      - name: Release build
+        run: >-
+          xcodebuild -project PhotoViewer.xcodeproj -scheme PhotoViewer
+          -configuration Release -destination 'platform=macOS,arch=arm64'
+          -derivedDataPath "$RUNNER_TEMP/PhotoViewerRelease"
+          ENABLE_CODE_COVERAGE=NO build
+      - name: Verify Release security configuration
+        run: >-
+          python3 scripts/verify_release.py
+          "$RUNNER_TEMP/PhotoViewerRelease/Build/Products/Release/Photo Viewer.app"

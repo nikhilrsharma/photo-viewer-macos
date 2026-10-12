@@ -1,0 +1,37 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: xcode-27
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@f3c49fd1ef3281abc41069b3dd22807a60c963f6 # v4
+        with:
+          languages: swift
+          build-mode: manual
+      - name: Build arm64 app
+        run: >-
+          xcodebuild -project PhotoViewer.xcodeproj -scheme PhotoViewer
+          -configuration Release -destination 'platform=macOS,arch=arm64'
+          -derivedDataPath "$RUNNER_TEMP/PhotoViewerCodeQL"
+          ENABLE_CODE_COVERAGE=NO build
+      - name: Analyze
+        uses: github/codeql-action/analyze@f3c49fd1ef3281abc41069b3dd22807a60c963f6 # v4
+        with:
+          category: /language:swift

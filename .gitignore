@@ -1,0 +1,45 @@
+# Local macOS and Xcode state
+.DS_Store
+**/xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.moved-aside
+
+# Build, test, profiling, and distribution outputs
+.build/
+build/
+Build/
+DerivedData/
+**/DerivedData/
+**/ReleaseDerivedData/
+work/
+artifacts/
+*.app/
+*.dSYM/
+*.xcarchive/
+*.xcresult/
+*.profraw
+*.profdata
+*.gcda
+*.gcno
+*.log
+*.xcactivitylog
+*.zip
+*.dmg
+
+# Local credentials, signing material, and environment overrides
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.key
+*.cer
+*.crt
+*.mobileprovision
+*.provisionprofile
+
+# Editor-local configuration
+.idea/
+.vscode/
