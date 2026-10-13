@@ -39,6 +39,6 @@ jobs:
           python3 scripts/verify_release.py
           "$RUNNER_TEMP/PhotoViewerCodeQL/Build/Products/Release/Nik's Photo Viewer.app"
       - name: Analyze
-        uses: github/codeql-action/analyze@f3c49fd1ef3281abc41069b3dd22807a60c963f6 # v4
+        uses: github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d # v4
         with:
           category: /language:swift
