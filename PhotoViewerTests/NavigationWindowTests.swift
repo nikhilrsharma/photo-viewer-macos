@@ -74,6 +74,26 @@ final class NavigationWindowTests: XCTestCase {
     XCTAssertFalse(label.isEditable)
   }
 
+  func testGreenButtonAndPerformZoomDispatchExactlyOncePerClick() throws {
+    let window = ZoomActionTestWindow(
+      contentRect: NSRect(x: 80, y: 80, width: 640, height: 480),
+      styleMask: [.titled, .closable, .miniaturizable, .resizable],
+      backing: .buffered, defer: false)
+    window.isReleasedWhenClosed = false
+    defer { window.close() }
+    AppWindowControls.configure(window)
+    let button = try XCTUnwrap(window.standardWindowButton(.zoomButton))
+
+    button.performClick(nil)
+    XCTAssertEqual(window.zoomCalls, 1)
+    window.performZoom(nil)
+    XCTAssertEqual(window.zoomCalls, 2)
+    button.performClick(nil)
+    XCTAssertEqual(window.zoomCalls, 3)
+    XCTAssertTrue(window.collectionBehavior.contains(.fullScreenNone))
+    XCTAssertFalse(window.styleMask.contains(.fullScreen))
+  }
+
   func testZoomAnimationInterpolatesAndRetargetsWithoutOvershoot() {
     let transition = ZoomTransition(from: 1, to: 2, startedAt: 10)
     XCTAssertEqual(transition.scale(at: 9), 1)
@@ -335,4 +355,13 @@ final class NavigationWindowTests: XCTestCase {
 private final class GeometryTestWindow: NSWindow {
   var simulatedBackingScale: CGFloat = 1
   override var backingScaleFactor: CGFloat { simulatedBackingScale }
+}
+
+@MainActor
+private final class ZoomActionTestWindow: NSWindow {
+  var zoomCalls = 0
+  override func zoom(_ sender: Any?) {
+    zoomCalls += 1
+    super.zoom(sender)
+  }
 }

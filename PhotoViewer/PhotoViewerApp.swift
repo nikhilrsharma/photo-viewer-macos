@@ -70,7 +70,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     AppTitlebar.install(on: window)
     window.isReleasedWhenClosed = false
     window.minSize = NSSize(width: 640, height: 480)
-    window.collectionBehavior.insert(.fullScreenNone)
+    AppWindowControls.configure(window)
     let hostingView = FocusableHostingView(rootView: ContentView(state: state))
     self.hostingView = hostingView
     window.contentView = hostingView
@@ -103,10 +103,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       )
     }
 
-    if let zoomButton = window.standardWindowButton(.zoomButton) {
-      zoomButton.target = window
-      zoomButton.action = #selector(NSWindow.performZoom(_:))
-    }
   }
 
   private func ensureWindowVisible() {
@@ -259,6 +255,19 @@ private struct AboutView: View {
 
 final class FocusableHostingView<Content: View>: NSHostingView<Content> {
   override var acceptsFirstResponder: Bool { true }
+}
+
+@MainActor
+enum AppWindowControls {
+  static func configure(_ window: NSWindow) {
+    window.collectionBehavior.insert(.fullScreenNone)
+    if let button = window.standardWindowButton(.zoomButton) {
+      button.target = window
+      // performZoom simulates clicking this button, so using it as the button's
+      // action recurses. zoom performs the actual normal-window resize.
+      button.action = #selector(NSWindow.zoom(_:))
+    }
+  }
 }
 
 final class NavigationWindow: NSWindow {
