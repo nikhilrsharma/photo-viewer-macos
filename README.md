@@ -1,4 +1,4 @@
-# Photo Viewer
+# Nik's Photo Viewer
 
 A small, native, read-only photo browser for macOS. Built for personal use by
 Nikhil Sharma with assistance from Codex, OpenAI's AI coding assistant.
@@ -12,7 +12,9 @@ product or a notarized binary release.
 - Browses supported images in the same folder with Left/Right arrows, in natural
   filename order (`photo2` before `photo10`), stopping at either end.
 - Starts in Fit mode. Manual zoom is 20–200% in 5% steps, using the slider or
-  minus/plus buttons. The percentage follows the slider thumb; Fit is visibly
+  minus/plus buttons or Up/Down arrows (including key repeat). Short, retargetable
+  zoom transitions keep input responsive; Reduce Motion makes changes immediate.
+  The percentage follows the slider thumb; Fit is visibly
   selected when active. Zoomed images can be panned.
 - Displays filename and full path, then filesystem creation date, file size,
   and position in the folder. Creation date is not the camera's EXIF date taken.
@@ -26,6 +28,10 @@ its size. Standard window controls remain available without macOS full-screen
 mode. A new Finder open replaces the image/folder and resets Fit; arrow navigation
 keeps the selected zoom mode. Fit's actual percentage may fall outside the manual
 20–200% range.
+
+The app name sits beside the standard traffic-light controls. Its app menu contains
+only About and Quit: no Hide commands or Window menu. Command-W and Command-M still
+close and minimize the photo window. macOS itself can still offer Hide in the Dock.
 
 ### Formats
 
@@ -57,7 +63,7 @@ xcodebuild -project PhotoViewer.xcodeproj -scheme PhotoViewer \
 ```
 
 The local app is at
-`$photo_viewer_build/Release/Build/Products/Release/Photo Viewer.app`.
+`$photo_viewer_build/Release/Build/Products/Release/Nik's Photo Viewer.app`.
 Keep the temporary build directory until you have inspected the test results and
 copied any output you want to retain. Tests generate temporary fixtures; the HEIC
 test additionally reads an optional system-provided image and skips when it is
@@ -71,8 +77,8 @@ notarization, and verification work.
 
 ## Use and folder access
 
-After building, place one copy of `Photo Viewer.app` in Applications and launch it.
-In Finder, use **Open With → Photo Viewer**, or drop an image onto the photo window.
+After building, place one copy of `Nik's Photo Viewer.app` in Applications and launch it.
+In Finder, use **Open With → Nik's Photo Viewer**, or drop an image onto the photo window.
 Avoid keeping multiple installed copies if Finder shows duplicate Open With entries.
 
 The app uses the macOS App Sandbox with read-only user-selected file access. To
@@ -83,8 +89,8 @@ reopen it to retry folder permission. macOS privacy controls can still restrict
 Desktop, Documents, removable volumes, or other locations.
 
 Folder access does not add editing features. Only one photo window is used; the
-separate, reusable About panel is available from **Photo Viewer → About Photo Viewer**.
-Closing the photo window leaves the app running. Use **Quit Photo Viewer** to exit.
+separate, reusable About panel is available from **Nik's Photo Viewer → About Nik's Photo Viewer**.
+Closing the photo window leaves the app running. Use **Quit Nik's Photo Viewer** to exit.
 The app does not rewrite photos. macOS can still update access/last-used metadata
 when a file is opened; read-only app access cannot guarantee unchanged OS metadata.
 
@@ -122,12 +128,35 @@ not replacing a measured CPU-heavy algorithm with another language.
 - [Security hardening and current validation notes](docs/SECURITY-HARDENING.md)
 - [Reproducible historical microbenchmark](benchmarks/README.md)
 
-**The two PDFs are retrospective, pre-hardening snapshots.** Their original
-unsandboxed architecture, licence/publication gates, and test counts are historical.
-The current source, this README, [Security](SECURITY.md), and the hardening notes
-supersede those statements. Earlier synthetic performance measurements are not a
+**The PRD is updated through 13 October 2026**, including current requirements,
+new user stories and acceptance criteria. The delivery backlog remains the original
+retrospective, pre-hardening snapshot; its original unsandboxed architecture,
+licence/publication gates, and test counts are historical. The current PRD, source,
+this README, and [Security](SECURITY.md) supersede those older backlog statements.
+Earlier synthetic performance measurements are not a
 benchmark of the current security-hardened build. No whole-application performance
 percentage, independent security audit, or representative usability study is claimed.
+
+To rebuild the PRD on macOS, install the optional documentation dependencies
+`reportlab` and `pypdf`, then run `python3 scripts/build_prd.py`. These are not app
+dependencies.
+
+### Icon
+
+The colourful glass landscape icon was generated with OpenAI's built-in image
+generation tool, then mechanically resized into Apple's required icon sizes.
+[AppIcon.png](AppIcon.png) is the 1024-pixel master. Generation prompt:
+
+> Use case: logo-brand. Asset type: macOS application icon for Nik's Photo Viewer.
+> Create one polished colourful app icon, square composition, no text, no letters,
+> no watermark. A luminous rounded-square photo tile: simple stylized mountains
+> and a warm circular sun rendered as layered translucent glass in vivid jewel
+> colours, clean silhouette and generous negative space, subtle dimensionality
+> and refined soft highlights. Colourful but minimal and legible at tiny Dock
+> sizes. A single centered icon occupying about 84 percent of the square,
+> straight-on view, equal transparent margins. True transparent background
+> outside the rounded-square icon. Do not include a device, desktop screenshot,
+> border frame, or multiple variants.
 
 ## Contributing and licence
 

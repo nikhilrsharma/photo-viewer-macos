@@ -19,7 +19,7 @@ support schedule.
 
 ## Security model
 
-Photo Viewer displays user-selected image files and discovers siblings in a folder
+Nik's Photo Viewer displays user-selected image files and discovers siblings in a folder
 the user approves. It is not an editor and does not intentionally write image
 content, names, metadata, or extended attributes.
 
@@ -89,6 +89,8 @@ a separate review of signing identity, nested-code signatures, notarization,
 Gatekeeper behaviour, and the exact shipped archive. Never commit signing keys,
 certificate exports, notarization credentials, personal fixtures, or build logs.
 
-The PDF portfolio documents in `docs/` are historical, pre-hardening snapshots.
-This document, the current source, and [Security hardening](docs/SECURITY-HARDENING.md)
-supersede their sandbox, licensing, validation-count, and publication-gate statements.
+The delivery-backlog PDF in `docs/` is a historical, pre-hardening snapshot. The PRD
+was updated on 13 October 2026. This document and the current source supersede the
+older backlog's sandbox, licensing, validation-count and publication-gate statements.
+[Security hardening](docs/SECURITY-HARDENING.md) records the original hardening work
+and subsequent validation status.

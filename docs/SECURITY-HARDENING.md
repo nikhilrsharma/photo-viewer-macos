@@ -1,5 +1,18 @@
 # Security hardening - 11 October 2026
 
+## Update - 13 October 2026
+
+The app is now named **Nik's Photo Viewer**. The updated PRD describes the current
+sandboxed product; only the delivery-backlog PDF remains a pre-hardening snapshot.
+The source is public at [photo-viewer-macos](https://github.com/nikhilrsharma/photo-viewer-macos).
+GitHub Build/tests and Swift CodeQL both passed for commit `cc756f3` after the
+CodeQL-only build disabled Xcode user-script sandboxing. App Sandbox remains on.
+The keyboard-zoom and branding update passed 85 local tests with zero failures,
+plus Release signature, read-only entitlement, hardened-runtime, architecture and
+coverage checks. Each new commit still needs its own GitHub workflow results.
+
+The following sections preserve the 11 October audit and its then-pending gates.
+
 This change follows the initial product/security review. It supersedes the
 pre-hardening security status in the two retrospective portfolio PDFs. The app's
 visible name remains **Photo Viewer**; the repository name is **photo-viewer-macos**.

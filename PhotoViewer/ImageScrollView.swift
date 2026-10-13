@@ -43,6 +43,13 @@ final class ViewerScrollView: NSScrollView {
   private var lastBackingScale: CGFloat = 0
   private var dragOrigin: CGPoint = .zero
   private var isLayingOutDocument = false
+  private var renderedScale: CGFloat?
+  private var zoomTransition: ZoomTransition?
+  private var zoomTimer: Timer?
+  private var zoomAnchor: CGPoint?
+  var reduceMotion: () -> Bool = { NSWorkspace.shared.accessibilityDisplayShouldReduceMotion }
+
+  var isAnimatingZoom: Bool { zoomTransition != nil }
 
   var onFitPercentageChanged: ((Double) -> Void)?
   var onViewportChanged: ((CGSize, CGFloat) -> Void)?
@@ -71,15 +78,26 @@ final class ViewerScrollView: NSScrollView {
 
   func configure(image: LoadedImage?, zoomMode: ZoomMode, imageIdentity: URL? = nil) {
     let imageChanged = displayedImage?.cgImage !== image?.cgImage
+    let photoChanged = imageIdentity != displayedIdentity
     let samePhoto = imageIdentity != nil && imageIdentity == displayedIdentity
     let zoomChanged = self.zoomMode != zoomMode
+    let canAnimate = zoomChanged && !photoChanged && displayedImage != nil && image != nil
+      && (!imageChanged || samePhoto) && !reduceMotion()
+    let startScale = renderedScale
     displayedImage = image
     displayedIdentity = imageIdentity
     self.zoomMode = zoomMode
     canvas.image = image?.cgImage
 
-    if imageChanged || zoomChanged {
-      layoutDocument(preserveCenter: !imageChanged || samePhoto)
+    if canAnimate, let startScale, let targetScale = targetScale() {
+      startZoomAnimation(from: startScale, to: targetScale)
+      return
+    }
+    if zoomChanged || photoChanged || (imageChanged && !samePhoto) {
+      stopZoomAnimation()
+    }
+    if imageChanged || zoomChanged || photoChanged {
+      layoutDocument(preserveCenter: !photoChanged && (!imageChanged || samePhoto))
     }
   }
 
@@ -89,13 +107,66 @@ final class ViewerScrollView: NSScrollView {
 
     let scale = window?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 1
     if contentSize != lastViewportSize || scale != lastBackingScale {
+      stopZoomAnimation()
       layoutDocument(preserveCenter: zoomMode != .fit)
     }
   }
 
   override func viewDidChangeBackingProperties() {
     super.viewDidChangeBackingProperties()
+    stopZoomAnimation()
     layoutDocument(preserveCenter: true)
+  }
+
+  override func viewWillMove(toWindow newWindow: NSWindow?) {
+    if newWindow == nil { stopZoomAnimation() }
+    super.viewWillMove(toWindow: newWindow)
+  }
+
+  private func targetScale() -> CGFloat? {
+    guard let image = displayedImage else { return nil }
+    switch zoomMode {
+    case .manual(let value): return value / 100
+    case .fit:
+      let backing = max(1, window?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 1)
+      return min(contentSize.width * backing / image.pixelSize.width,
+                 contentSize.height * backing / image.pixelSize.height)
+    }
+  }
+
+  private func startZoomAnimation(from: CGFloat, to: CGFloat) {
+    stopZoomAnimation()
+    let visible = documentVisibleRect
+    let frame = canvas.imageFrame
+    if frame.width > 0, frame.height > 0 {
+      zoomAnchor = CGPoint(x: (visible.midX - frame.minX) / frame.width,
+                           y: (visible.midY - frame.minY) / frame.height)
+    }
+    zoomTransition = ZoomTransition(from: from, to: to, startedAt: ProcessInfo.processInfo.systemUptime)
+    let timer = Timer(timeInterval: 1.0 / 120.0, repeats: true) { [weak self] timer in
+      guard let self else { timer.invalidate(); return }
+      MainActor.assumeIsolated {
+        self.advanceZoomAnimation()
+      }
+    }
+    zoomTimer = timer
+    RunLoop.main.add(timer, forMode: .common)
+  }
+
+  private func advanceZoomAnimation() {
+    guard let transition = zoomTransition else { return }
+    let now = ProcessInfo.processInfo.systemUptime
+    let finished = now - transition.startedAt >= ZoomTransition.duration || reduceMotion()
+    renderedScale = finished ? transition.to : transition.scale(at: now)
+    layoutDocument(preserveCenter: true)
+    if finished { stopZoomAnimation() }
+  }
+
+  private func stopZoomAnimation() {
+    zoomTimer?.invalidate()
+    zoomTimer = nil
+    zoomTransition = nil
+    zoomAnchor = nil
   }
 
   private func layoutDocument(preserveCenter: Bool) {
@@ -128,6 +199,7 @@ final class ViewerScrollView: NSScrollView {
       }
 
     guard let image = displayedImage else {
+      renderedScale = nil
       canvas.imageFrame = .zero
       canvas.frame = CGRect(origin: .zero, size: viewport)
       canvas.needsDisplay = true
@@ -143,12 +215,17 @@ final class ViewerScrollView: NSScrollView {
     let fitScale = min(viewport.width / baseSize.width, viewport.height / baseSize.height)
 
     let imageScale: CGFloat
-    switch zoomMode {
-    case .fit:
-      imageScale = fitScale
-    case .manual(let percentage):
-      imageScale = percentage / 100
+    if zoomTransition != nil, let renderedScale {
+      imageScale = renderedScale
+    } else {
+      switch zoomMode {
+      case .fit:
+        imageScale = fitScale
+      case .manual(let percentage):
+        imageScale = percentage / 100
+      }
     }
+    renderedScale = imageScale
 
     let drawnSize = CGSize(
       width: max(1, baseSize.width * imageScale),
@@ -168,7 +245,11 @@ final class ViewerScrollView: NSScrollView {
     )
     canvas.needsDisplay = true
 
-    if let normalizedCenter {
+    if let anchor = zoomAnchor {
+      contentView.scroll(to: CGPoint(
+        x: canvas.imageFrame.minX + anchor.x * drawnSize.width - viewport.width / 2,
+        y: canvas.imageFrame.minY + anchor.y * drawnSize.height - viewport.height / 2))
+    } else if let normalizedCenter {
       let target = CGPoint(
         x: normalizedCenter.x * documentSize.width - viewport.width / 2,
         y: normalizedCenter.y * documentSize.height - viewport.height / 2
@@ -199,6 +280,8 @@ final class ViewerScrollView: NSScrollView {
 
     switch recognizer.state {
     case .began:
+      stopZoomAnimation()
+      layoutDocument(preserveCenter: true)
       dragOrigin = contentView.bounds.origin
       NSCursor.closedHand.push()
     case .changed:
@@ -214,6 +297,19 @@ final class ViewerScrollView: NSScrollView {
     default:
       break
     }
+  }
+}
+
+struct ZoomTransition {
+  static let duration: TimeInterval = 0.14
+  let from: CGFloat
+  let to: CGFloat
+  let startedAt: TimeInterval
+
+  func scale(at time: TimeInterval) -> CGFloat {
+    let progress = min(1, max(0, (time - startedAt) / Self.duration))
+    let eased = 1 - pow(1 - progress, 3)
+    return from + (to - from) * eased
   }
 }
 

@@ -277,6 +277,7 @@ final class ApplicationStateTests: XCTestCase {
 
   func testZoomControlsSnapToFivePercentAndClampToManualRange() {
     let state = ApplicationState()
+    state.openExternal(temporaryFolder.appendingPathComponent("photo.jpg"))
     state.effectiveFitPercentage = 67.7
 
     XCTAssertEqual(state.sliderValue(), 70)
@@ -295,6 +296,13 @@ final class ApplicationStateTests: XCTestCase {
     state.setManualZoom(20)
     state.adjustZoom(by: -1)
     XCTAssertEqual(state.zoomMode, .manual(20))
+  }
+
+  func testKeyboardZoomDoesNothingWithoutAnImage() {
+    let state = ApplicationState()
+    state.adjustZoom(by: 1)
+    state.adjustZoom(by: -1)
+    XCTAssertEqual(state.zoomMode, .fit)
   }
 
   func testZoomButtonsMoveIntoManualRangeFromOutOfRangeFit() {

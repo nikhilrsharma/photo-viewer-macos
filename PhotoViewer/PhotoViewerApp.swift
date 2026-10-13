@@ -1,6 +1,9 @@
 import AppKit
-import Combine
 import SwiftUI
+
+enum AppIdentity {
+  static let name = "Nik's Photo Viewer"
+}
 
 @main
 @MainActor
@@ -11,7 +14,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   private lazy var state = ApplicationState(folderAccess: folderAccess)
   private var window: NavigationWindow!
   private var hostingView: NSView!
-  private var subscriptions: Set<AnyCancellable> = []
   private let aboutPanelController = AboutPanelController()
 
   static func main() {
@@ -27,7 +29,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     NSApp.setActivationPolicy(.regular)
     buildMainMenu()
     buildWindow()
-    observeWindowTitle()
 
     window.makeKeyAndOrderFront(nil)
     focusViewer()
@@ -66,8 +67,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       backing: .buffered,
       defer: false
     )
-    window.title = "Photo Viewer"
-    window.titleVisibility = .hidden
+    AppTitlebar.install(on: window)
     window.isReleasedWhenClosed = false
     window.minSize = NSSize(width: 640, height: 480)
     window.collectionBehavior.insert(.fullScreenNone)
@@ -77,6 +77,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     window.initialFirstResponder = hostingView
     window.onNavigate = { [weak self] offset in
       self?.state.navigate(by: offset)
+    }
+    window.onZoom = { [weak self] offset in
+      self?.state.adjustZoom(by: offset)
     }
 
     let frameName = "PhotoViewer.MainWindow"
@@ -121,70 +124,58 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     window.makeFirstResponder(hostingView)
   }
 
-  private func observeWindowTitle() {
-    state.$currentURL
-      .sink { [weak self] url in
-        self?.window?.title = url?.lastPathComponent ?? "Photo Viewer"
-      }
-      .store(in: &subscriptions)
+  private func buildMainMenu() {
+    NSApp.windowsMenu = nil
+    NSApp.mainMenu = AppMenu.make(aboutTarget: self, aboutAction: #selector(showAbout(_:)))
   }
 
-  private func buildMainMenu() {
-    let mainMenu = NSMenu()
+  @objc private func showAbout(_ sender: Any?) {
+    aboutPanelController.show()
+  }
+}
 
-    let appItem = NSMenuItem(title: "Photo Viewer", action: nil, keyEquivalent: "")
-    let appMenu = NSMenu(title: "Photo Viewer")
+@MainActor
+enum AppMenu {
+  static func make(aboutTarget: AnyObject?, aboutAction: Selector) -> NSMenu {
+    let mainMenu = NSMenu()
+    let appItem = NSMenuItem(title: AppIdentity.name, action: nil, keyEquivalent: "")
+    let appMenu = NSMenu(title: AppIdentity.name)
     let aboutItem = NSMenuItem(
-      title: "About Photo Viewer", action: #selector(showAbout(_:)), keyEquivalent: "")
-    aboutItem.target = self
+      title: "About \(AppIdentity.name)", action: aboutAction, keyEquivalent: "")
+    aboutItem.target = aboutTarget
     appMenu.addItem(aboutItem)
     appMenu.addItem(.separator())
     appMenu.addItem(
-      withTitle: "Hide Photo Viewer",
-      action: #selector(NSApplication.hide(_:)),
-      keyEquivalent: "h"
-    )
-    appMenu.addItem(.separator())
-    appMenu.addItem(
-      withTitle: "Quit Photo Viewer",
+      withTitle: "Quit \(AppIdentity.name)",
       action: #selector(NSApplication.terminate(_:)),
       keyEquivalent: "q"
     )
     appItem.submenu = appMenu
     mainMenu.addItem(appItem)
 
-    let windowItem = NSMenuItem(title: "Window", action: nil, keyEquivalent: "")
-    let windowMenu = NSMenu(title: "Window")
-    windowMenu.addItem(
-      withTitle: "Close",
-      action: #selector(NSWindow.performClose(_:)),
-      keyEquivalent: "w"
-    )
-    windowMenu.addItem(
-      withTitle: "Minimize",
-      action: #selector(NSWindow.performMiniaturize(_:)),
-      keyEquivalent: "m"
-    )
-    windowMenu.addItem(
-      withTitle: "Zoom",
-      action: #selector(NSWindow.performZoom(_:)),
-      keyEquivalent: ""
-    )
-    windowMenu.addItem(.separator())
-    windowMenu.addItem(
-      withTitle: "Bring All to Front",
-      action: #selector(NSApplication.arrangeInFront(_:)),
-      keyEquivalent: ""
-    )
-    windowItem.submenu = windowMenu
-    mainMenu.addItem(windowItem)
-    NSApp.windowsMenu = windowMenu
-
-    NSApp.mainMenu = mainMenu
+    return mainMenu
   }
+}
 
-  @objc private func showAbout(_ sender: Any?) {
-    aboutPanelController.show()
+@MainActor
+enum AppTitlebar {
+  static func install(on window: NSWindow) {
+    window.title = AppIdentity.name
+    window.titleVisibility = .hidden
+    let accessory = NSTitlebarAccessoryViewController()
+    accessory.layoutAttribute = .left
+    let view = NSView(frame: NSRect(x: 0, y: 0, width: 165, height: 24))
+    let label = NSTextField(labelWithString: AppIdentity.name)
+    label.font = .systemFont(ofSize: 13, weight: .semibold)
+    label.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(label)
+    NSLayoutConstraint.activate([
+      label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6),
+      label.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+      label.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -6)
+    ])
+    accessory.view = view
+    window.addTitlebarAccessoryViewController(accessory)
   }
 }
 
@@ -225,7 +216,7 @@ final class AboutPanelController {
       let newPanel = NSPanel(
         contentRect: NSRect(x: 0, y: 0, width: 420, height: 300),
         styleMask: [.titled, .closable], backing: .buffered, defer: false)
-      newPanel.title = "About Photo Viewer"
+      newPanel.title = "About \(AppIdentity.name)"
       newPanel.isReleasedWhenClosed = false
       newPanel.hidesOnDeactivate = false
       newPanel.isExcludedFromWindowsMenu = true
@@ -247,7 +238,7 @@ private struct AboutView: View {
         .resizable()
         .frame(width: 64, height: 64)
         .accessibilityHidden(true)
-      Text("Photo Viewer")
+      Text(AppIdentity.name)
         .font(.system(size: 22, weight: .semibold))
       Text("Created by \(AppAboutInfo.creator)")
         .font(.system(size: 14, weight: .medium))
@@ -272,8 +263,27 @@ final class FocusableHostingView<Content: View>: NSHostingView<Content> {
 
 final class NavigationWindow: NSWindow {
   var onNavigate: ((Int) -> Void)?
+  var onZoom: ((Int) -> Void)?
+
+  override func performKeyEquivalent(with event: NSEvent) -> Bool {
+    // Preserve the familiar shortcuts without adding a Window menu.
+    if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .command {
+      switch event.charactersIgnoringModifiers?.lowercased() {
+      case "w": performClose(nil); return true
+      case "m": performMiniaturize(nil); return true
+      default: break
+      }
+    }
+    return super.performKeyEquivalent(with: event)
+  }
 
   override func sendEvent(_ event: NSEvent) {
+    if event.type == .keyDown,
+      let direction = Self.zoomDirection(for: event, firstResponder: firstResponder)
+    {
+      onZoom?(direction)
+      return
+    }
     if event.type == .keyDown,
       let direction = Self.navigationDirection(for: event, firstResponder: firstResponder)
     {
@@ -285,12 +295,7 @@ final class NavigationWindow: NSWindow {
   }
 
   static func navigationDirection(for event: NSEvent, firstResponder: NSResponder?) -> Int? {
-    if let editor = firstResponder as? NSTextView, editor.isFieldEditor {
-      return nil
-    }
-
-    let blockedModifiers: NSEvent.ModifierFlags = [.command, .control, .option]
-    guard event.modifierFlags.intersection(blockedModifiers).isEmpty else { return nil }
+    guard acceptsArrow(event, firstResponder: firstResponder) else { return nil }
 
     switch event.keyCode {
     case 123:
@@ -300,5 +305,21 @@ final class NavigationWindow: NSWindow {
     default:
       return nil
     }
+  }
+
+  static func zoomDirection(for event: NSEvent, firstResponder: NSResponder?) -> Int? {
+    guard acceptsArrow(event, firstResponder: firstResponder) else { return nil }
+    switch event.keyCode {
+    case 126: return 1
+    case 125: return -1
+    default: return nil
+    }
+  }
+
+  private static func acceptsArrow(_ event: NSEvent, firstResponder: NSResponder?) -> Bool {
+    if let editor = firstResponder as? NSTextView, editor.isFieldEditor || editor.isEditable {
+      return false
+    }
+    return event.modifierFlags.intersection([.command, .control, .option, .shift]).isEmpty
   }
 }

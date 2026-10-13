@@ -102,7 +102,7 @@ struct ContentView: View {
       .controlSize(.small)
       .accessibilityLabel("Zoom out")
       .accessibilityValue("Minimum 20 percent")
-      .help("Zoom out by 5% (minimum 20%)")
+      .help("Zoom out by 5% (Down Arrow; minimum 20%)")
       .disabled(!state.canAdjustZoom(by: -1))
       .frame(height: ZoomControlLayout.controlHeight)
     }
@@ -127,7 +127,7 @@ struct ContentView: View {
       .controlSize(.small)
       .accessibilityLabel("Zoom in")
       .accessibilityValue("Maximum 200 percent")
-      .help("Zoom in by 5% (maximum 200%)")
+      .help("Zoom in by 5% (Up Arrow; maximum 200%)")
       .disabled(!state.canAdjustZoom(by: 1))
       .frame(height: ZoomControlLayout.controlHeight)
     }

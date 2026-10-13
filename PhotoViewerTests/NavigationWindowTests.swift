@@ -26,6 +26,106 @@ final class NavigationWindowTests: XCTestCase {
     XCTAssertTrue(offsets.isEmpty)
   }
 
+  func testVerticalArrowsZoomIncludingRepeatWithoutNavigating() throws {
+    let window = makeWindow()
+    var zooms: [Int] = []
+    var navigation: [Int] = []
+    window.onZoom = { zooms.append($0) }
+    window.onNavigate = { navigation.append($0) }
+    window.sendEvent(try keyEvent(keyCode: 126))
+    window.sendEvent(try keyEvent(keyCode: 126, isARepeat: true))
+    window.sendEvent(try keyEvent(keyCode: 125))
+    XCTAssertEqual(zooms, [1, 1, -1])
+    XCTAssertTrue(navigation.isEmpty)
+  }
+
+  func testVerticalArrowsRespectTextEditingAndModifiers() throws {
+    let editor = NSTextView()
+    editor.isEditable = true
+    for code: UInt16 in [125, 126] {
+      XCTAssertNil(NavigationWindow.zoomDirection(for: try keyEvent(keyCode: code), firstResponder: editor))
+      for modifier: NSEvent.ModifierFlags in [.shift, .command, .control, .option] {
+        XCTAssertNil(NavigationWindow.zoomDirection(
+          for: try keyEvent(keyCode: code, modifiers: modifier), firstResponder: nil))
+      }
+    }
+    XCTAssertNil(NavigationWindow.zoomDirection(for: try keyEvent(keyCode: 124), firstResponder: nil))
+  }
+
+  func testMenuHasAboutAndQuitWithoutHideOrWindowMenu() throws {
+    let menu = AppMenu.make(aboutTarget: nil, aboutAction: #selector(NSObject.description))
+    XCTAssertEqual(menu.items.map(\.title), ["Nik's Photo Viewer"])
+    let appMenu = try XCTUnwrap(menu.items.first?.submenu)
+    XCTAssertEqual(appMenu.items.filter { !$0.isSeparatorItem }.map(\.title),
+                   ["About Nik's Photo Viewer", "Quit Nik's Photo Viewer"])
+    XCTAssertFalse(appMenu.items.contains { $0.action == #selector(NSApplication.hide(_:)) })
+  }
+
+  func testTitlebarIdentityIsLeftAlignedAndStable() throws {
+    let window = makeWindow()
+    window.isReleasedWhenClosed = false
+    defer { window.close() }
+    AppTitlebar.install(on: window)
+    XCTAssertEqual(window.title, "Nik's Photo Viewer")
+    let accessory = try XCTUnwrap(window.titlebarAccessoryViewControllers.first)
+    XCTAssertEqual(accessory.layoutAttribute, .left)
+    let label = try XCTUnwrap(accessory.view.subviews.first as? NSTextField)
+    XCTAssertEqual(label.stringValue, AppIdentity.name)
+    XCTAssertFalse(label.isEditable)
+  }
+
+  func testZoomAnimationInterpolatesAndRetargetsWithoutOvershoot() {
+    let transition = ZoomTransition(from: 1, to: 2, startedAt: 10)
+    XCTAssertEqual(transition.scale(at: 9), 1)
+    XCTAssertEqual(transition.scale(at: 11), 2)
+    let middle = transition.scale(at: 10.07)
+    XCTAssertGreaterThan(middle, 1)
+    XCTAssertLessThan(middle, 2)
+    let reverse = ZoomTransition(from: middle, to: 0.2, startedAt: 10.07)
+    XCTAssertEqual(reverse.scale(at: 10.07), middle)
+    XCTAssertEqual(reverse.scale(at: 11), 0.2, accuracy: 0.0001)
+  }
+
+  func testZoomAnimationCompletesAndNewImageCancelsIt() async throws {
+    let (window, view) = makeScrollView(backingScale: 2)
+    defer { window.close() }
+    view.reduceMotion = { false }
+    let image = LoadedImage(cgImage: try makeImage(width: 40, height: 30),
+                            pixelSize: CGSize(width: 4000, height: 3000))
+    let url = URL(fileURLWithPath: "/synthetic/one.jpg")
+    view.configure(image: image, zoomMode: .manual(100), imageIdentity: url)
+    view.configure(image: image, zoomMode: .manual(105), imageIdentity: url)
+    XCTAssertTrue(view.isAnimatingZoom)
+    for _ in 0..<100 where view.isAnimatingZoom { try await Task.sleep(for: .milliseconds(5)) }
+    XCTAssertFalse(view.isAnimatingZoom)
+    let canvas = try XCTUnwrap(view.documentView as? ImageCanvasView)
+    XCTAssertEqual(canvas.imageFrame.width, 2100, accuracy: 0.01)
+    view.configure(image: image, zoomMode: .manual(200), imageIdentity: url)
+    XCTAssertTrue(view.isAnimatingZoom)
+    let nextURL = URL(fileURLWithPath: "/synthetic/two.jpg")
+    view.configure(image: image, zoomMode: .manual(200), imageIdentity: nextURL)
+    XCTAssertFalse(view.isAnimatingZoom, "A different photo cancels even if its raster is shared")
+    XCTAssertEqual(canvas.imageFrame.width, 4000, accuracy: 0.01)
+    view.configure(image: image, zoomMode: .manual(195), imageIdentity: nextURL)
+    XCTAssertTrue(view.isAnimatingZoom)
+    view.configure(image: nil, zoomMode: .fit, imageIdentity: nil)
+    XCTAssertFalse(view.isAnimatingZoom)
+    XCTAssertEqual(canvas.imageFrame, .zero)
+  }
+
+  func testReduceMotionMakesZoomImmediate() throws {
+    let (window, view) = makeScrollView(backingScale: 1)
+    defer { window.close() }
+    view.reduceMotion = { true }
+    let image = LoadedImage(cgImage: try makeImage(width: 40, height: 30),
+                            pixelSize: CGSize(width: 4000, height: 3000))
+    view.configure(image: image, zoomMode: .manual(100))
+    view.configure(image: image, zoomMode: .manual(150))
+    XCTAssertFalse(view.isAnimatingZoom)
+    let canvas = try XCTUnwrap(view.documentView as? ImageCanvasView)
+    XCTAssertEqual(canvas.imageFrame.width, 6000, accuracy: 0.01)
+  }
+
   func testArrowKeyIsReservedForActiveTextFieldEditor() throws {
     let window = makeWindow()
     let textField = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 24))
@@ -158,7 +258,7 @@ final class NavigationWindowTests: XCTestCase {
     let panel = try XCTUnwrap(controller.panel)
     defer { panel.close() }
 
-    XCTAssertEqual(panel.title, "About Photo Viewer")
+    XCTAssertEqual(panel.title, "About Nik's Photo Viewer")
     XCTAssertTrue(panel.styleMask.contains(.closable))
     XCTAssertFalse(panel.styleMask.contains(.resizable))
     XCTAssertFalse(panel.isReleasedWhenClosed)

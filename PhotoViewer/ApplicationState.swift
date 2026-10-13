@@ -91,7 +91,7 @@ final class ApplicationState: ObservableObject {
   }
 
   var filename: String {
-    currentURL?.lastPathComponent ?? "Photo Viewer"
+    currentURL?.lastPathComponent ?? AppIdentity.name
   }
 
   var fullPath: String {
@@ -209,7 +209,7 @@ final class ApplicationState: ObservableObject {
   }
 
   func adjustZoom(by increments: Int) {
-    guard increments != 0 else { return }
+    guard currentURL != nil, increments != 0 else { return }
     setManualZoom(ZoomPolicy.stepped(from: sliderValue(), by: increments))
   }
 

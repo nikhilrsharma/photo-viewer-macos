@@ -47,10 +47,10 @@
 		A10000000000000000000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1000000000000000000000A /* ZoomPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomPolicyTests.swift; sourceTree = "<group>"; };
 		A1000000000000000000000B /* ImageCatalogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCatalogTests.swift; sourceTree = "<group>"; };
-		A1000000000000000000000C /* Photo Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Photo Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1000000000000000000000C /* Nik's Photo Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nik's Photo Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000000000000000000000D /* PhotoViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000000000000000000000E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
-		A1000000000000000000000F /* AppIcon.svg */ = {isa = PBXFileReference; lastKnownFileType = image.svg; path = AppIcon.svg; sourceTree = "<group>"; };
+		A1000000000000000000000F /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon.png; sourceTree = "<group>"; };
 		A10000000000000000000010 /* ImageLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderTests.swift; sourceTree = "<group>"; };
 		A10000000000000000000011 /* ApplicationStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationStateTests.swift; sourceTree = "<group>"; };
 		A10000000000000000000012 /* NavigationWindowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationWindowTests.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 			children = (
 				A40000000000000000000002 /* PhotoViewer */,
 				A40000000000000000000003 /* PhotoViewerTests */,
-				A1000000000000000000000F /* AppIcon.svg */,
+				A1000000000000000000000F /* AppIcon.png */,
 				A40000000000000000000004 /* Frameworks */,
 				A40000000000000000000005 /* Products */,
 			);
@@ -131,7 +131,7 @@
 		A40000000000000000000005 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A1000000000000000000000C /* Photo Viewer.app */,
+				A1000000000000000000000C /* Nik's Photo Viewer.app */,
 				A1000000000000000000000D /* PhotoViewerTests.xctest */,
 			);
 			name = Products;
@@ -157,7 +157,7 @@
 			packageProductDependencies = (
 			);
 			productName = PhotoViewer;
-			productReference = A1000000000000000000000C /* Photo Viewer.app */;
+			productReference = A1000000000000000000000C /* Nik's Photo Viewer.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A50000000000000000000002 /* PhotoViewerTests */ = {
@@ -432,7 +432,7 @@
 				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikhilsharma.PhotoViewer;
 				PRODUCT_MODULE_NAME = PhotoViewer;
-				PRODUCT_NAME = "Photo Viewer";
+				PRODUCT_NAME = "Nik's Photo Viewer";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 			};
@@ -459,7 +459,7 @@
 				OTHER_CODE_SIGN_FLAGS = "--options runtime";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nikhilsharma.PhotoViewer;
 				PRODUCT_MODULE_NAME = PhotoViewer;
-				PRODUCT_NAME = "Photo Viewer";
+				PRODUCT_NAME = "Nik's Photo Viewer";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 			};
@@ -481,7 +481,7 @@
 				PRODUCT_NAME = PhotoViewerTests;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Photo Viewer.app/Contents/MacOS/Photo Viewer";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nik's Photo Viewer.app/Contents/MacOS/Nik's Photo Viewer";
 			};
 			name = Debug;
 		};
@@ -501,7 +501,7 @@
 				PRODUCT_NAME = PhotoViewerTests;
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Photo Viewer.app/Contents/MacOS/Photo Viewer";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nik's Photo Viewer.app/Contents/MacOS/Nik's Photo Viewer";
 			};
 			name = Release;
 		};

@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>Photo Viewer</string>
+    <string>Nik's Photo Viewer</string>
     <key>CFBundleDocumentTypes</key>
     <array>
         <dict>
@@ -114,17 +114,17 @@
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>NSDesktopFolderUsageDescription</key>
-    <string>Photo Viewer needs read-only access to your Desktop to find the previous and next images.</string>
+    <string>Nik's Photo Viewer needs read-only access to your Desktop to find the previous and next images.</string>
     <key>NSDocumentsFolderUsageDescription</key>
-    <string>Photo Viewer needs read-only access to your Documents folder to find the previous and next images.</string>
+    <string>Nik's Photo Viewer needs read-only access to your Documents folder to find the previous and next images.</string>
     <key>NSDownloadsFolderUsageDescription</key>
-    <string>Photo Viewer needs read-only access to your Downloads folder to find the previous and next images.</string>
+    <string>Nik's Photo Viewer needs read-only access to your Downloads folder to find the previous and next images.</string>
     <key>NSFileProviderDomainUsageDescription</key>
-    <string>Photo Viewer needs read-only access to files managed by this provider to find the previous and next images.</string>
+    <string>Nik's Photo Viewer needs read-only access to files managed by this provider to find the previous and next images.</string>
     <key>NSNetworkVolumesUsageDescription</key>
-    <string>Photo Viewer needs read-only access to this network volume to find the previous and next images.</string>
+    <string>Nik's Photo Viewer needs read-only access to this network volume to find the previous and next images.</string>
     <key>NSRemovableVolumesUsageDescription</key>
-    <string>Photo Viewer needs read-only access to this removable volume to find the previous and next images.</string>
+    <string>Nik's Photo Viewer needs read-only access to this removable volume to find the previous and next images.</string>
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
 </dict>

@@ -45,4 +45,4 @@ jobs:
       - name: Verify Release security configuration
         run: >-
           python3 scripts/verify_release.py
-          "$RUNNER_TEMP/PhotoViewerRelease/Build/Products/Release/Photo Viewer.app"
+          "$RUNNER_TEMP/PhotoViewerRelease/Build/Products/Release/Nik's Photo Viewer.app"
